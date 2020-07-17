@@ -24,6 +24,9 @@ fun Application.module(testing: Boolean = false) {
         get("/health") {
             call.respond(mapOf("status" to "OK"))
         }
+        get("/") {
+            call.respond(HttpStatusCode.OK, "Alive!")
+        }
     }
 }
 

@@ -16,19 +16,19 @@ spec:
     spec:
       containers:
         - name: arch-health
-          image: phichersandbox/arch-health:latest
+          image: phichersandbox/arch-health:1.0.1
           ports:
             - containerPort: 8000
           livenessProbe:
             httpGet:
-              port: 80
+              port: 8000
               path: /
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 2
           readinessProbe:
             httpGet:
-              port: 80
+              port: 8000
               path: /health
             initialDelaySeconds: 10
             periodSeconds: 5
