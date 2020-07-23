@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "728d8645-f76d-4903-949d-b8fd4560d2e0",
+		"name": "ArchUser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25991aef-e0f0-4b47-84f5-462de0c3091f",
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody) ",
+							"pm.collectionVariables.set(\"userId\", responseJSON[\"id\"])",
+							"",
+							"pm.test(\"Creation User Status\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"username\",\n\t\"firstName\": \"firstName\",\n\t\"lastName\": \"lastName\",\n\t\"mail\": \"mail\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/otusapp/d.kotelnikov/user",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"otusapp",
+						"d.kotelnikov",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5faf898-c8f0-485d-befb-0e1516124ba0",
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody) ",
+							"",
+							"pm.test(\"Getting User Status\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assert Username\", function () {",
+							"    pm.expect(responseJSON[\"username\"]).to.equal(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/otusapp/d.kotelnikov/user/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"otusapp",
+						"d.kotelnikov",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d845132c-5e21-405a-8e58-cf4e9609d658",
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody) ",
+							"",
+							"pm.test(\"Updating user status\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Updating user count\", function () {",
+							"   pm.expect(pm.response.text()).to.include(\"1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"{{userId}}\",\n\t\"username\": \"username1\",\n\t\"firstName\": \"firstName\",\n\t\"lastName\": \"lastName\",\n\t\"mail\": \"mail\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/otusapp/d.kotelnikov/user",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"otusapp",
+						"d.kotelnikov",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a5e4137-82e8-492d-bf79-e4f7472f9c40",
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody) ",
+							"",
+							"pm.test(\"Delete usert status\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Delete user count\", function () {",
+							"   pm.expect(pm.response.text()).to.include(\"1\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/otusapp/d.kotelnikov/user/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"otusapp",
+						"d.kotelnikov",
+						"user",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "18bc4851-af59-4d84-ae42-c373e2cedbbb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "10883bd0-14e9-476b-ae69-48f4d483da25",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e81c851b-e764-41bf-b268-f6f59a769c95",
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "f087cff5-e1e8-4cac-95a1-821be24de47f",
+			"key": "baseUrl",
+			"value": "arch.homework",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
