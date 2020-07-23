@@ -80,13 +80,7 @@ fun Application.module(testing: Boolean = false) {
 }
 
 private fun initDB() {
-    val config = HikariConfig()
-    config.driverClassName = "org.postgresql.Driver"
-    config.jdbcUrl = "jdbc:postgresql://arch-chart-postgresql/myapp?user=myuser&password=passwd"
-    config.username = "myuser"
-    config.password = "passwd"
-    config.maximumPoolSize = 3
-    config.isAutoCommit = false
+    val config = HikariConfig("/hikari.properties")
     val ds = HikariDataSource(config)
     val connection = ds.connection
     val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(JdbcConnection(connection))
