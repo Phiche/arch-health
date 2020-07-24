@@ -80,7 +80,11 @@ fun Application.module(testing: Boolean = false) {
 }
 
 private fun initDB() {
-    val config = HikariConfig("/hikari.properties")
+    val config = HikariConfig()
+    config.jdbcUrl = System.getenv("JDBC_URL")
+    config.username = System.getenv("USERNAME")
+    config.password = System.getenv("PASSWORD")
+
     val ds = HikariDataSource(config)
     val connection = ds.connection
     val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(JdbcConnection(connection))

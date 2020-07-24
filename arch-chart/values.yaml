@@ -8,9 +8,12 @@ nameOverride: arch-health
 fullnameOverride: arch-health
 containerPort: 8000
 
+imageConfig:
+  pullPolicy: IfNotPresent
+
 image:
   repository: phichersandbox/arch-health
-  pullPolicy: IfNotPresent
+
 service:
   type: NodePort
   port: 8080
@@ -30,6 +33,8 @@ postgresql:
   postgresqlUsername: myuser
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
+  postgresqlHost: arch-chart-postgresql
+  postgresqlPort: 80
   persistence:
     subPath: postgres
   service:

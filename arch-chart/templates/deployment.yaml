@@ -24,12 +24,28 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}" # {{ .Values.image }}
+          imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
+          env:
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: PASSWORD
+            - name: JDBC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: jdbc-url-config
+                  key: JDBC_URL
+            - name: USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: jdbc-url-config
+                  key: USERNAME
           livenessProbe:
             httpGet:
               path: /
