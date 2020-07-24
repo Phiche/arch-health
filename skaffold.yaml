@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+metadata:
+  name: arch-health
+build:
+  artifacts:
+  - image: phichersandbox/arch-health
+deploy:
+  helm:
+    releases:
+      - name: arch-chart
+        chartPath: ./arch-chart
+        skipBuildDependencies: true
+        artifactOverrides:
+          image: phichersandbox/arch-health
