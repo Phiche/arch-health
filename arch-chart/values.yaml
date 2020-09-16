@@ -16,17 +16,17 @@ image:
 
 service:
   type: NodePort
-  port: 8080
+  port: 8084
+
+metrics:
+  serviceMonitor:
+    enabled: true
 
 ingress:
   enabled: true
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-
   hosts:
     - host: arch.homework
-      paths:
-        - /otusapp/([a-zA-Z0-9_.-]*)/(.*)
+      paths: ["/"]
 
 postgresql:
   enabled: true

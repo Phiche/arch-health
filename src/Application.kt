@@ -5,13 +5,19 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.application.Application
 import io.ktor.application.call
+import io.ktor.application.feature
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
+import io.ktor.metrics.micrometer.MicrometerMetrics
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.response.respondText
 import io.ktor.routing.*
+import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
+import io.micrometer.prometheus.PrometheusConfig
+import io.micrometer.prometheus.PrometheusMeterRegistry
 import liquibase.Contexts
 import liquibase.LabelExpression
 import liquibase.Liquibase
@@ -22,6 +28,7 @@ import org.jetbrains.exposed.sql.Database
 import phicher.course.dto.User
 import phicher.course.service.UserRepository
 import java.lang.Exception
+import java.time.Duration
 
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -37,13 +44,29 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    install(MicrometerMetrics) {
+        val promRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+        registry = promRegistry
+        distributionStatisticConfig = DistributionStatisticConfig.Builder()
+            .percentilesHistogram(true)
+            .build()
+
+        routing {
+            get("/prometheus") {
+                call.respondText {
+                    promRegistry.scrape()
+                }
+            }
+        }
+    }
+
     routing {
         get("/health") {
             call.respond(mapOf("status" to "OK"))
         }
 
         get("/") {
-            call.respond(HttpStatusCode.OK, "Alive!")
+            call.respond(HttpStatusCode.OK, "Alive!!")
         }
 
         post("/user") {
