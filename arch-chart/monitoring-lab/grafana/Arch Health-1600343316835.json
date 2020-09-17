@@ -14,9 +14,9 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "id": 25,
-  "iteration": 1599669848865,
+  "iteration": 1600343256861,
   "links": [],
   "panels": [
     {
@@ -198,10 +198,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(nginx_ingress_controller_request_duration_seconds_count{namespace=\"$namespace\"}[$timeWindow]))",
+          "expr": "rate(nginx_ingress_controller_request_duration_seconds_count{namespace=\"$namespace\"}[1m])",
           "hide": false,
           "interval": "$timeWindow",
-          "legendFormat": "Rate",
+          "legendFormat": "{{path}}",
           "refId": "A"
         }
       ],
@@ -209,7 +209,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "RPM",
+      "title": "RPS",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -295,7 +295,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(nginx_ingress_controller_request_duration_seconds_count{namespace=\"$namespace\", status=~\"5.*\"}[$timeWindow])",
+          "expr": "rate(nginx_ingress_controller_request_duration_seconds_count{namespace=\"$namespace\", status=~\"5.*\"}[1m])",
           "hide": false,
           "interval": "",
           "legendFormat": "{{status}}",
@@ -779,10 +779,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(ktor_http_server_requests_seconds_count[1m]))",
+          "expr": "sum(rate(ktor_http_server_requests_seconds_count[1m])) by (route)",
           "hide": false,
-          "interval": "1m",
-          "legendFormat": "RPM",
+          "interval": "1s",
+          "legendFormat": "{{route}}",
           "refId": "A"
         }
       ],
@@ -790,7 +790,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "RPM",
+      "title": "RPS",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -911,7 +911,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(ktor_http_server_requests_seconds_count{status=~\"5.*\"}[1m])) by (status)",
+          "expr": "sum(increase(ktor_http_server_requests_seconds_count{status=~\"5.*\"}[1s])) by (status)",
           "hide": false,
           "interval": "",
           "legendFormat": "{{status}}",
@@ -982,8 +982,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "arch-health-69756b948c-t8k8w",
-          "value": "arch-health-69756b948c-t8k8w"
+          "text": "arch-health-7868c74c66-ss7qq",
+          "value": "arch-health-7868c74c66-ss7qq"
         },
         "datasource": "Prometheus",
         "definition": "kube_pod_container_info{namespace=\"$namespace\"}",
@@ -1058,7 +1058,7 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "1m",
           "value": "1m"
         },
@@ -1126,8 +1126,8 @@
     ]
   },
   "time": {
-    "from": "2020-09-09T17:10:29.983Z",
-    "to": "2020-09-09T17:10:59.594Z"
+    "from": "now-15m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -1145,5 +1145,5 @@
   "timezone": "",
   "title": "Arch Health",
   "uid": "0oHzEwDMz",
-  "version": 5
+  "version": 14
 }
